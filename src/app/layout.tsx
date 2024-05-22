@@ -1,5 +1,5 @@
 import "~/styles/globals.css";
-
+import Link from "next/link";
 import { GeistSans } from "geist/font/sans";
 
 export const metadata = {
@@ -10,15 +10,20 @@ export const metadata = {
 
 function TopNav() {
     return (
-        <nav className="flex w-full items-center justify-between border-b p-4 text-xl font-semibold">
-         <div>Logo</div> 
-         <div>Administrative</div>
-         <div>Gaming</div>
-         <div>Bartending</div>
-         <div>Special Programs</div>
-         <div>Disbursements</div>
-         <div>Reports</div>
-         <div> Sign In</div>
+        <nav className="w-full px-6 p-2 text-xl font-semibold bg-slate-950">
+          <div className="w-4/5 flex items-center justify-between">
+            <div>
+             <Link href="/">
+               <img src="/favicon.ico" alt="Crescent School" className="w-24" />
+             </Link>
+            </div> 
+            <div>Administrative</div>
+            <div>Gaming</div>
+            <div>Bartending</div>
+            <div>Special Programs</div>
+            <div>Disbursements</div>
+            <div>Reports</div>
+          </div>
         </nav>
     );
 }
