@@ -17,12 +17,24 @@ function TopNav() {
                <img src="/favicon.ico" alt="Crescent School" className="w-24" />
              </Link>
             </div> 
-            <div>Administrative</div>
-            <div>Gaming</div>
-            <div>Bartending</div>
-            <div>Special Programs</div>
-            <div>Disbursements</div>
-            <div>Reports</div>
+            <div>
+              <Link href="/" className="">Administrative</Link>
+            </div>
+            <div>
+              <Link href="/" className="">Gaming</Link>
+            </div>
+            <div>
+              <Link href="/" className="">Bartending</Link>
+            </div>
+            <div>
+              <Link href="/" className="">Special Programs</Link>
+            </div>
+            <div>
+              <Link href="/" className="">Disbursements</Link>
+            </div>
+            <div>
+              <Link href="/" className="">Reports</Link>
+            </div>
           </div>
         </nav>
     );

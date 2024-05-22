@@ -10,6 +10,8 @@ import {
   varchar,
   pgEnum,
   boolean,
+  integer,
+  decimal,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -24,16 +26,19 @@ export const sex_enum = pgEnum("sex_enum", ['Not Assigned','Male', 'Female', 'Ot
 export const race_enum = pgEnum("race_enum", ['Not Assigned','White','African American','Hispanic','Asian','Native American','Pacific Islander']);
 export const program_enum = pgEnum("program_enum", ['Not Assigned','All Game','Two Game','One Game','Short Bar','Bar Management']);
 export const status_enum = pgEnum("status_enum", ['Not Assigned','Student','Graduate','Dropped','DC','CXL']);
+export const collection_status_enum = pgEnum("collection_status_enum", ['Not Assigned','Sent','Paid','Unpaid']);
 
 export const Students = createTable(
   "students",
   {
     id: serial("id").primaryKey().notNull(),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
     first_name: varchar("first_name", {length: 256}).notNull(),
     last_name: varchar("last_name", {length: 256}).notNull(),
     program: program_enum("program").default('Not Assigned').notNull(),
     SSN: varchar("SSN", {length: 256}).notNull().unique(),
     phone_number: varchar("phone_number", {length: 256}),
+    email: varchar("email", {length: 256}).notNull(),
     dob: timestamp("dob", { withTimezone: true }),
     sex: sex_enum("sex").default('Not Assigned').notNull(), 
     race: race_enum("race").default('Not Assigned').notNull(),
@@ -50,16 +55,172 @@ export const Students = createTable(
     veterans_affairs: boolean("veterans_affairs").default(false).notNull(),
     in_school: boolean("in_school").default(false).notNull(),
   },
+  //(example) => ({
+    //first_name_index: index("first_name_idx").on(example.first_name),
+  //}),
+);
+
+export const Schools = createTable(
+  "schools",
+  {
+    id: serial("id").primaryKey().notNull(),
+    name: varchar("name", {length: 256}).notNull(),
+    address_id: serial("address_id").notNull().references(() => Adresses.id),
+    phone_number: varchar("phone_number", {length: 256}),
+    fax_number: varchar("fax_number", {length: 256}),
+    email: varchar("email", {length: 256}),
+  },
+);
+
+export const Accounting = createTable(
+  "accounting",
+  {
+    id: serial("id").primaryKey().notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    living_expenses: decimal("living_expenses").notNull(),
+    next_payment_due: timestamp("next_payment_due", { withTimezone: true }).notNull(),
+    date_billed: timestamp("date_billed", { withTimezone: true }).notNull(),
+    collection_sent: timestamp("collection_sent", { withTimezone: true }).notNull(),
+    collection_status: collection_status_enum("collection_status").default('Not Assigned').notNull(),
+  },
+);
+
+export const Comments = createTable(
+  "comments",
+  {
+    id: serial("id").primaryKey().notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    comment: varchar("comment", {length: 256}).notNull(),
+    date: timestamp("date", { withTimezone: true }).notNull(),
+  
+  },
+);
+
+export const Holidays = createTable(
+  "holidays",
+  {
+    id: serial("id").primaryKey().notNull(),
+    name: varchar("name", {length: 256}).notNull(),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
+    date: timestamp("date", { withTimezone: true }).notNull(),
+  },
+);
+
+export const Instructors = createTable(
+  "instructors",
+  {
+    id: serial("id").primaryKey().notNull(),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
+    first_name: varchar("first_name", {length: 256}).notNull(),
+    last_name: varchar("last_name", {length: 256}).notNull(),
+    phone_number: varchar("phone_number", {length: 256}),
+    email: varchar("email", {length: 256}),
+    address_id: serial("address_id").references(() => Adresses.id),
+  },
+);
+
+export const Classes = createTable(
+  "classes",
+  {
+    id: serial("id").primaryKey().notNull(),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
+    name: varchar("name", {length: 256}).notNull(),
+    class_time: timestamp("class_time", { withTimezone: true }).notNull(),
+    credits: integer("credits").notNull(),
+  },
+);
+
+export const Tests = createTable(
+  "tests",
+  {
+    id: serial("id").primaryKey().notNull(),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    score: decimal("score").notNull(),
+  },
+);
+
+export const Attendance = createTable(
+  "attendance",
+  {
+    id: serial("id").primaryKey().notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
+    date: timestamp("date", { withTimezone: true }).notNull(),
+    hours: decimal("hours"),
+    mod: integer("mod"),
+    absent: boolean("absent").default(false).notNull(),
+  },
+);
+
+export const Participation = createTable(
+  "participation",
+  {
+    id: serial("id").primaryKey().notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
+    date: timestamp("date", { withTimezone: true }).notNull(),
+    participation: decimal("participation").notNull(),
+  },
+);
+
+export const Games = createTable(
+  "games",
+  {
+    id: serial("id").primaryKey().notNull(),
+    name: varchar("name", {length: 256}).notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    casino_attitude: decimal("casino_attitude").notNull(),
+    audition: decimal("audition").notNull(),
+  },
+);
+
+export const Courses = createTable(
+  "courses",
+  {
+    id: serial("id").primaryKey().notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    name: varchar("name", {length: 256}).notNull(),
+    grade: decimal("grade").notNull(),
+  },
+);
+
+export const Completed_Sections = createTable(
+  "completed_sections",
+  {
+    id: serial("id").primaryKey().notNull(),
+    name: varchar("name", {length: 256}).notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+  },
 );
 
 export const Adresses = createTable(
   "addresses",
   {
-    id: serial("id").primaryKey(),
+    id: serial("id").primaryKey().notNull(),
     address1: varchar("address1", {length: 256}).notNull(),
     address2: varchar("address2", {length: 256}),
     city: varchar("city", {length: 256}).notNull(),
     state: varchar("state", {length: 256}).notNull(),
     zip: varchar("zip", {length: 256}).notNull(),
+  },
+);
+
+export const Admissions = createTable(
+  "admissions",
+  {
+    id: serial("id").primaryKey().notNull(),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
+    first_contact_date: timestamp("first_contact_date", { withTimezone: true }),
+    last_contact_date: timestamp("last_contact_date", { withTimezone: true }),
+    interview_date: timestamp("interview_date", { withTimezone: true }),
+    call_back_date: timestamp("call_back_date", { withTimezone: true }),
+    scheduled_appointment_date: timestamp("scheduled_appointment_date", { withTimezone: true }),
+    enroll_date: timestamp("enroll_date", { withTimezone: true }),
+    reference: varchar("reference", {length: 256}),
+    interviewed_by: serial("interviewed_by").notNull().references(() => Instructors.id),
+    call_taken_by: serial("call_taken_by").notNull().references(() => Instructors.id),
+    enrolled_by: serial("enrolled_by").notNull().references(() => Instructors.id),
   },
 );

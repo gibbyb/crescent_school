@@ -4,10 +4,17 @@ import { db } from "~/server/db"
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const students = await db.query.Students.findMany({
+    orderBy: (model, {desc}) => desc(model.id),
+  });
   return (
     <main className="">
       <div className="flex flex-wrap gap-4">
-        Hello World!
+        {[...students].map((Student, index) => (
+        <div key={Student.id + '-' + index} className="text-xl">
+          {Student.first_name} {Student.last_name}
+        </div>
+        ))}
       </div>
     </main>
   );
