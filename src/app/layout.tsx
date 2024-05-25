@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
-import { Metadata } from "next";
-import { TopNav } from "./_components/topnav";
+import type { Metadata } from "next";
+import { TopNav } from "./_components/Top_Nav";
 
 export const metadata: Metadata = {
   title: "Crescent School",
