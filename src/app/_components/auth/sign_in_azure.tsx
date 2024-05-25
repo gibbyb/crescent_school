@@ -6,23 +6,24 @@ export async function SignInAZURE() {
   if (session) {
     return (
       <div>
-        <div className="welcome block lg:inline-block text-white hover:text-gray-400 px-4">
+        <div className="welcome block lg:inline-block
+          text-white hover:text-gray-400 px-4">
           <p>{session.user?.name}</p>
         </div>
         <div className="welcome hover:text-gray-400 px-4">
-        <SignOut />
+        <SignOut/>
         </div>
       </div>
     )
   } else {
     return (
-      <form
-        action={async () => {
+      <form action={async () => {
           "use server"
           await signIn("microsoft-entra-id")
         }}
       >
-        <div className="welcome block lg:inline-block text-white hover:text-gray-400 px-4">
+        <div className="welcome block lg:inline-block
+          text-white hover:text-gray-400 px-4">
         <button type="submit">Sign In with Microsoft</button>
         </div>
       </form>

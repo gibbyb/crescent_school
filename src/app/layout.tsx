@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { TopNav } from "./_components/Top_Nav";
+import { Nav_Bar } from "./_components/Nav_Bar";
 
 export const metadata: Metadata = {
   title: "Crescent School",
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
   <html lang="en" className={`${GeistSans.variable}`}>
     <body className="flex flex-col gap-4">
-      <TopNav />
+      <Nav_Bar />
       {children}
     </body>
   </html>
