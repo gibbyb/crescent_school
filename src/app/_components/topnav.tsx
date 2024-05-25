@@ -1,7 +1,11 @@
 import Link from 'next/link';
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import { SignInGH } from './sign_in_gh';
+import { SignInAZURE } from './sign_in_azure';
+import { auth }  from "~/auth";
+import { SignOut } from './auth/sign_out';
 
-export function TopNav() {
+export async function TopNav() {
+  const session = await auth();
     return (
         <nav className="navbar w-full px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
             <div className="container max-w-7xl mx-auto flex items-center justify-between flex-wrap">
@@ -33,11 +37,10 @@ export function TopNav() {
                         </Link>
                     </div>
                     <div>
-                        <Link href="/" className="inline-block text-sm px-4 py-2 leading-none border rounded 
-                        text-white border-white hover:border-transparent hover:text-gray-400 hover:bg-white mt-4 lg:mt-0">
-                          <SignedOut><SignInButton/></SignedOut>
-                          <SignedIn><UserButton/></SignedIn>
-                        </Link>
+                        <SignInGH />
+                        <SignInAZURE />
+                        <p> Welcome, {session?.user.name} </p>
+                        <SignOut />
                     </div>
                 </div>
             </div>

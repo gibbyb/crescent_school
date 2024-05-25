@@ -2,7 +2,6 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { Metadata } from "next";
 import { TopNav } from "./_components/topnav";
-import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
   title: "Crescent School",
@@ -16,13 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
-        <body className="flex flex-col gap-4">
-          <TopNav />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+  <html lang="en" className={`${GeistSans.variable}`}>
+    <body className="flex flex-col gap-4">
+      <TopNav />
+      {children}
+    </body>
+  </html>
   );
 }
