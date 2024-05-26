@@ -145,8 +145,10 @@ export function Nav_Items() {
               {navItem.trigger}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="items grid w-[400px] gap-3 p-4
-                md:w-[500px] md:grid-cols-2 lg:w-[690px]">
+              <ul className="items grid w-[300px] gap-3 p-4
+                md:w-[500px] md:grid-cols-2 lg:w-[540px]
+                bg-gradient-to-bl from-gray-800 to-slate-950
+                border-2 border-gray-800 rounded-2xl">
                 {navItem.list.map((component) => (
                   <ListItem
                     key={component.title}

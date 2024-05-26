@@ -1,39 +1,39 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
 
-  @layer base {
-    :root {
-      --background: 224 71.4% 4.1%;
-      --foreground: 210 20% 98%;
+@layer base {
+  :root {
+    --background: 224 71.4% 4.1%;
+    --gibbackground: 46, 47, 61;
+    --foreground: 210 20% 98%;
 
-      --card: 224 71.4% 4.1%;
-      --card-foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
 
-      --popover: 224 71.4% 4.1%;
-      --popover-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
 
-      --primary: 210 20% 98%;
-      --primary-foreground: 220.9 39.3% 11%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
 
-      --secondary: 215 27.9% 16.9%;
-      --secondary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
 
-      --muted: 215 27.9% 16.9%;
-      --muted-foreground: 217.9 10.6% 64.9%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
 
-      --accent: 215 27.9% 16.9%;
-      --accent-foreground: 210 20% 98%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
 
-      --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
 
-      --border: 215 27.9% 16.9%;
-      --input: 215 27.9% 16.9%;
-      --ring: 216 12.2% 83.9%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
 
-            --radius: 0.5rem;
-    }
+    --radius: 0.5rem;
   }
 
   @layer base {
@@ -44,18 +44,54 @@
       @apply bg-background text-foreground;
     }
   }
+}
 
-@media (max-width: 868px) {
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(20, 20, 32);
+  background-image: linear-gradient(0deg, rgb(3, 7, 18) 0%, rgb(10, 12, 20) 70%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+@media (max-width: 1280px) {
+  .title {
+    display: none;
+  }
+  .chevron-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-menu-items {
+    font-size: 14px;
+  }
+  .welcome {
+    font-size: 12px;
+  }
+  .sign-in {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+}
+
+@media (max-width: 770px) {
   .navbar {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
     width: 100%;
   }
   .logo {
-    width: 50px;
+    width: 30px;
   }
   .title {
-    display: none;
     font-size: 10px;
     padding-left: 0px;
     padding-right: 0px;
@@ -66,20 +102,28 @@
     padding-right: 0px;
   }
   .nav-menu-items {
-    font-size: 10px;
-    padding-left: 0px;
-    padding-right: 0px;
-    display: inline-block;
+    font-size: 12px;
+    padding-left: 1px;
+    padding-right: 1px;
   }
-  .welcome {
-    font-size: 10px;
-    padding-bottom: 0px;
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-left: 5px;
+  .sign-in {
+    font-size: 12px;
+    padding-right: 10px;
+    margin-bottom: auto;
+    margin-top: auto;
   }
   .menu {
     font-size: 12px;
     right: 35%;
+  }
+}
+
+@media (max-width: 520px) {
+  .logo {
+    display: none;
+  }
+  .navbar {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
