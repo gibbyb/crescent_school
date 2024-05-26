@@ -12,9 +12,9 @@ This project was also built with Create T3 App.
 - [x] Complete rough draft of database schema
 - [x] Set up Auth.js with Microsoft Entra & GitHub
 - [x] Make a decent nav bar for mobile & desktop
-- [ ] Set up shadcn/ui
+- [x] Set up shadcn/ui
+- [ ] Begin creating pages, frontends, etc.
 - [ ] Try to set up Auth.js Drizzle adapter if one exists
     - [ ] Perhaps create your own.
 - [ ] Clean up & complete database schema
 - [ ] Create your first API that will interact with the database
-- [ ] Begin creating pages, frontends, etc.
