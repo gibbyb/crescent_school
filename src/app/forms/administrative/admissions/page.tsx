@@ -1,8 +1,8 @@
 "use client"
 
+//import Link from "next/link";
+//import { db } from "~/server/db"
 export const dynamic = "force-dynamic";
-import Link from "next/link";
-import { db } from "~/server/db"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -10,7 +10,7 @@ import { Button } from "~/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
+  //FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -42,7 +42,6 @@ const FormSchema = z.object({
   address_1: z.string().min(6).max(255),
   address_2: z.string().min(1).max(255).optional(),
   city: z.string().min(2).max(255),
-  //state: z.string().min(2).max(2),
   state: z.enum(["AL", "AK", "AZ", "AR", "CA", "CO",
                  "CT", "DE", "FL", "GA", "HI", "ID",
                  "IL", "IN", "IA", "KS", "KY", "LA",
@@ -137,201 +136,244 @@ export default function InputForm() {
       ),
     })
   }
-
   return (
-    <Form {...form}>
-      <h1 className="text-center text-2xl pb-10">Admissions Form</h1>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 mx-auto space-y-6">
-        <div className="flex space-x-4 justify-between">
-          <FormField
-            control={form.control}
-            name="first_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">First Name</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Student's first name" className="w-52" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="last_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">Last Name</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Student's last name" className="w-52" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">Email Address</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Student's Email Address" className="w-60" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone_number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">Phone Number</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Student's Phone Number" className="w-52" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex space-x-4 justify-between">
-          <FormField
-            control={form.control}
-            name="address_1"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">Address 1</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Student's Address" className="w-56" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="address_2"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">Address 2</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Unit, apartment number, etc." className="w-56" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">City</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="City" className="w-48" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="state"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>
-                  <div className="pl-3">State</div>
-                </FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "w-32 justify-between",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value
-                          ? states.find(
-                              (state) => state.value === field.value
-                            )?.label
-                          : "Select state"}
-                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-32 p-0 text-xs">
-                    <Command>
-                      <CommandInput
-                        placeholder="Search state..."
-                        className="h-9"
-                      />
-                      <CommandEmpty>No states found.</CommandEmpty>
-                      <CommandGroup>
-                        {states.map((state) => (
-                          <CommandItem
-                            value={state.label}
-                            key={state.value}
-                            className="h-6"
-                            onSelect={() => {
-                              form.setValue("state", state.value as typeof field.value)
-                            }}
-                          >
-                            {state.label}
-                            <CheckIcon
-                              className={cn(
-                                "ml-auto h-4 w-4",
-                                state.value === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="zip_code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <div className="pl-5">Zip Code</div>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Zip Code" className="w-32" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <div className="form-container w-2/3 mx-auto">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="">
+            <div className="row1-container flex flex-wrap gap-6">
+
+              <div className="personal-info-card flex-1 p-4 border rounded-lg">
+                <h2 className="section-title text-lg font-medium mb-4">Personal Information</h2>
+                <div className="personal-info-grid grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="first_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="First Name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="last_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Last Name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone_number"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Phone Number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="address-card flex-1 p-4 border rounded-lg">
+                <h2 className="section-title text-lg font-medium mb-4">Address</h2>
+                <div className="address-grid grid grid-cols-1 gap-4 md:grid-cols-1">
+                  <FormField
+                    control={form.control}
+                    name="address_1"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Address 1" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="address_2"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Address 2" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mt-4">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input placeholder="City" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                type="button"
+                                className="w-full text-left text-white bg-gradient-to-r from-slate-900 to-slate-950"
+                              >
+                                {field.value ? states.find(state => state.value === field.value)?.label : "State"}
+                                <CaretSortIcon className="h-4 w-8 pl-2" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-48 p-0">
+                            <Command>
+                              <CommandInput placeholder="Search state..." className="h-9" />
+                              <CommandEmpty>No states found.</CommandEmpty>
+                              <CommandGroup>
+                                {states.map((state) => (
+                                  <CommandItem
+                                    value={state.label}
+                                    key={state.value}
+                                    className="h-6"
+                                    onSelect={() => {
+                                      form.setValue("state", state.value as typeof field.value)
+                                    }}
+                                  >
+                                    {state.label}
+                                    <CheckIcon
+                                      className={cn(
+                                        "ml-auto h-4 w-4",
+                                        state.value === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="zip_code"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Zip Code</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Zip Code" className="" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="personal-info-card flex-1 p-4 border rounded-lg">
+                <h2 className="section-title text-lg font-medium mb-4">Personal Information</h2>
+                <div className="personal-info-grid grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="first_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>First Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="First Name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="last_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Last Name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone_number"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Phone Number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+            </div>
+          </div>
+          <Button type="submit" className="mt-6">Submit</Button>
+        </form>
+      </Form>
+    </div>
   )
 }

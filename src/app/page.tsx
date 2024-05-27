@@ -6,6 +6,9 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const user = await auth();
+  const students = await db.query.Students.findMany({
+    orderBy: (model, {desc}) => desc(model.id),
+  });
   if (!user) {
     return (
       <main>
@@ -14,9 +17,6 @@ export default async function HomePage() {
       </main>
     );
   } else {
-    const students = await db.query.Students.findMany({
-      orderBy: (model, {desc}) => desc(model.id),
-    });
     return (
       <main>
         <div className="flex flex-wrap gap-4">

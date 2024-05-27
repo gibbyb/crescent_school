@@ -59,7 +59,10 @@ export async function User_Menu() {
             </DropdownMenuSub>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem disabled>Example of a Menu Hidden from some</DropdownMenuItem>
+          <DropdownMenuItem disabled>
+            Admin Panel
+            <DropdownMenuShortcut>⌘A</DropdownMenuShortcut>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <SignOut />
