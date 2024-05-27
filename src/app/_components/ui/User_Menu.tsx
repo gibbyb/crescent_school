@@ -24,7 +24,7 @@ export async function User_Menu() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="User_Menu" className="sign-in text-xl">
+          <Button variant="User_Menu" className="sign-in text-lg">
             {session.user?.name ? session.user.name : "My Account"}
           </Button>
         </DropdownMenuTrigger>
@@ -71,7 +71,7 @@ export async function User_Menu() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="User_Menu" className="sign-in text-xl">Sign In</Button>
+          <Button variant="User_Menu" className="sign-in text-lg">Sign In</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>

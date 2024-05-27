@@ -9,8 +9,8 @@ export default async function HomePage() {
   if (!user) {
     return (
       <main>
-        <div className="w-full text-3xl text-center">Welcome to the New Dashboard for Crescent Staff</div>
-        <div className="w-full text-4xl text-center">Please Sign In</div>
+        <div className="w-full text-2xl text-center">Welcome to the New Dashboard for Crescent Staff</div>
+        <div className="w-full text-xl text-center">Please Sign In</div>
       </main>
     );
   } else {
