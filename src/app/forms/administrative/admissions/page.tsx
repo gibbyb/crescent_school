@@ -35,7 +35,9 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover"
 import { Calendar } from "~/components/ui/calendar"
+import { BirthdayCalendar } from "~/components/ui/birthday-calendar"
 import { format } from "date-fns"
+import { useEffect } from "react";
 
 const FormSchema = z.object({
   first_name: z.string().min(2).max(255),
@@ -55,11 +57,14 @@ const FormSchema = z.object({
                  "TX", "UT", "VT", "VA", "WA", "WV",
                  "WI", "WY"]),
   zip_code: z.string().min(5).max(10),
-  sex: z.enum(["Male", "Female", "Other"]),
+  sex: z.enum(["Male", "Female", "Other", "Prefer not to say", ""]),
   race: z.enum(["White", "Black", "Hispanic",
-                "Asian", "Pacific Islander", "Other"]).optional(),
-  ethnicity: z.enum(["Hispanic", "Non-Hispanic"]).optional(),
+                "Asian", "Pacific Islander", "Other", "Prefer not to say", ""]),
+  ethnicity: z.enum(["Hispanic", "Non-Hispanic", "Prefer not to say", ""]),
   date_of_birth: z.date(),
+  date_of_birth_month: z.number().min(1).max(12),
+  date_of_birth_day: z.number().min(1).max(31),
+  date_of_birth_year: z.number().min(1900).max(new Date().getFullYear() - 21),
   SSN: z.string().min(9).max(11),
   prior_education: z.enum(["High School", "GED", "Some College",
                            "Associates", "Bachelors",
@@ -97,23 +102,28 @@ type ComboOption = {
   label: string;
 };
 
-const states: ComboOption[] = FormSchema.shape.state._def.values.map((state: string) => ({
+const states: ComboOption[] = 
+  FormSchema.shape.state._def.values.map((state: string) => ({
   value: state,
   label: state,
 }));
-const selected_programs: ComboOption[] = FormSchema.shape.selected_program._def.values.map((selected_program: string) => ({
+const selected_programs: ComboOption[] = 
+  FormSchema.shape.selected_program._def.values.map((selected_program: string) => ({
   value: selected_program,
   label: selected_program,
 }));
-const references: ComboOption[] = FormSchema.shape.reference._def.values.map((item: string) => ({
+const references: ComboOption[] =
+  FormSchema.shape.reference._def.values.map((item: string) => ({
   value: item,
   label: item,
 }));
-const call_taken_bys: ComboOption[] = FormSchema.shape.call_taken_by._def.values.map((item: string) => ({
+const call_taken_bys: ComboOption[] =
+  FormSchema.shape.call_taken_by._def.values.map((item: string) => ({
   value: item,
   label: item,
 }));
-const statuses: ComboOption[] = FormSchema.shape.status._def.values.map((item: string) => ({
+const statuses: ComboOption[] =
+  FormSchema.shape.status._def.values.map((item: string) => ({
   value: item,
   label: item,
 }));
@@ -121,18 +131,54 @@ const appointment_time_am_pms: ComboOption[] = [
   { value: "AM", label: "AM" },
   { value: "PM", label: "PM" },
 ];
-const appointment_time_hours: ComboOption[] = Array.from({length: 12}, (_, i) => i + 1).map((hour: number) => ({
+const appointment_time_hours: ComboOption[] =
+  Array.from({length: 12}, (_, i) => i + 1).map((hour: number) => ({
   value: hour.toString(),
   label: hour.toString(),
 }));
-const appointment_time_minutes: ComboOption[] = Array.from({ length: 12 }, (_, i) => i * 5).map((minute: number) => {
+const appointment_time_minutes: ComboOption[] =
+  Array.from({ length: 12 }, (_, i) => i * 5).map((minute: number) => {
   const value = minute < 10 ? `0${minute}` : minute.toString();
   return {
     value,
     label: value,
   };
 });
+const sexes: ComboOption[] =
+  FormSchema.shape.sex._def.values.map((item: string) => ({
+  value: item,
+  label: item,
+}));
+const races: ComboOption[] =
+  FormSchema.shape.race._def.values.map((item: string) => ({
+  value: item,
+  label: item,
+}));
+const ethnicities: ComboOption[] =
+  FormSchema.shape.ethnicity._def.values.map((item: string) => ({
+  value: item,
+  label: item,
+}));
+const monthNames: string[] = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
+const date_of_birth_months: ComboOption[] = monthNames.map((month, index) => ({
+  value: (index + 1).toString(), 
+  label: month,
+}));
+
+const date_of_birth_days: ComboOption[] =
+  Array.from({ length: 31 }, (_, i) => i + 1).map((day: number) => ({
+  value: day.toString(),
+  label: day.toString(),
+}));
+const date_of_birth_years: ComboOption[] =
+  Array.from({ length: (new Date().getFullYear() - 21) - 1900 }, (_, i) => i + 1900).map((year: number) => ({
+  value: year.toString(),
+  label: year.toString(),
+}));
 
 export default function InputForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -146,10 +192,9 @@ export default function InputForm() {
       address_2: "",
       city: "",
       zip_code: "",
-      sex: "Male",
-      race: "Other",
-      ethnicity: "Non-Hispanic",
-      us_citizen: false,
+      sex: "",
+      race: "",
+      ethnicity: "",
       program_cost: 0,
       program_hours: 0,
       scheduled_appointment: false, 
@@ -163,6 +208,16 @@ export default function InputForm() {
     },
 
   })
+  const day = form.watch("date_of_birth_day");
+  const month = form.watch("date_of_birth_month");
+  const year = form.watch("date_of_birth_year");
+useEffect(() => {
+
+  if (day && month && year) {
+    const date = new Date(year, month - 1, day);
+    form.setValue("date_of_birth", date);
+  }
+}, [day, month, year, form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
@@ -345,6 +400,246 @@ export default function InputForm() {
                       </FormItem>
                     )}
                   />
+                </div>
+                <div className="personal-info-grid grid grid-cols-2 gap-6 md:grid-cols-3 py-2">
+
+                  <FormField
+                    control={form.control}
+                    name="sex"
+                    render={({ field }) => (
+                      <FormItem className="min-w-[115px]">
+                        <FormLabel>Sex</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                type="button"
+                                className="w-full text-left text-white bg-gradient-to-r from-slate-900 to-slate-950"
+                              >
+                                {field.value ? sexes.find(sexes => sexes.value === field.value)?.label : ""}
+                                <CaretSortIcon className="h-4 w-8 pl-2" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-44 p-0">
+                            <Command>
+                              <CommandInput placeholder="Student's sex" className="h-9" />
+                              <CommandEmpty>No sex found</CommandEmpty>
+                              <CommandGroup>
+                                {sexes.map((item) => (
+                                  <CommandItem
+                                    value={item.label}
+                                    key={item.value}
+                                    className="h-6"
+                                    onSelect={() => {
+                                      form.setValue("sex", item.value as typeof field.value)
+                                    }}
+                                  >
+                                    {item.label}
+                                    <CheckIcon
+                                      className={cn(
+                                        "ml-auto h-4 w-4",
+                                        item.value === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="date_of_birth"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col pt-2 min-w-[115px]">
+                        <FormLabel>Date of Birth</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  " pl-3 text-left font-normal bg-gradient-to-r from-slate-900 to-slate-950",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "PPP")
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                          <div className="grid grid-cols-3">
+                            <FormField
+                              control={form.control}
+                              name="date_of_birth_month"
+                              render={({ field }) => (
+                                <FormItem className="min-w-[115px]">
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          type="button"
+                                          className="w-full text-left text-white bg-gradient-to-r from-slate-900 to-slate-950"
+                                        >
+                                          {field.value ? date_of_birth_months.find(date_of_birth_months => Number(date_of_birth_months.value) === field.value)?.label : "Select Month"}
+                                          <CaretSortIcon className="h-4 w-8 pl-2" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                      <PopoverContent className="w-44 p-0">
+                                        <Command>
+                                          <CommandInput placeholder="Search for month..." className="h-9" />
+                                          <CommandEmpty>No Months found.</CommandEmpty>
+                                          <CommandGroup>
+                                            {date_of_birth_months.map((item) => (
+                                              <CommandItem
+                                                value={item.label}
+                                                key={item.value}
+                                                className="h-6"
+                                                onSelect={() => {
+                                                  form.setValue("date_of_birth_month", Number(item.value))
+                                                }}
+                                              >
+                                                {item.label}
+                                                <CheckIcon
+                                                  className={cn(
+                                                    "ml-auto h-4 w-4",
+                                                    Number(item.value) === field.value
+                                                      ? "opacity-100"
+                                                      : "opacity-0"
+                                                  )}
+                                                />
+                                              </CommandItem>
+                                            ))}
+                                          </CommandGroup>
+                                        </Command>
+                                      </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="date_of_birth_day"
+                              render={({ field }) => (
+                                <FormItem className="min-w-[115px]">
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          type="button"
+                                          className="w-full text-left text-white bg-gradient-to-r from-slate-900 to-slate-950"
+                                        >
+                                          {field.value ? date_of_birth_days.find(date_of_birth_days => Number(date_of_birth_days.value) === field.value)?.label : "Select Day"}
+                                          <CaretSortIcon className="h-4 w-8 pl-2" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                      <PopoverContent className="w-44 p-0">
+                                        <Command>
+                                          <CommandInput placeholder="Search for day..." className="h-9" />
+                                          <CommandEmpty>No days found.</CommandEmpty>
+                                          <CommandGroup>
+                                            {date_of_birth_days.map((item) => (
+                                              <CommandItem
+                                                value={item.label}
+                                                key={item.value}
+                                                className="h-6"
+                                                onSelect={() => {
+                                                  form.setValue("date_of_birth_day", Number(item.value))
+                                                }}
+                                              >
+                                                {item.label}
+                                                <CheckIcon
+                                                  className={cn(
+                                                    "ml-auto h-4 w-4",
+                                                    Number(item.value) === field.value
+                                                      ? "opacity-100"
+                                                      : "opacity-0"
+                                                  )}
+                                                />
+                                              </CommandItem>
+                                            ))}
+                                          </CommandGroup>
+                                        </Command>
+                                      </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name="date_of_birth_year"
+                              render={({ field }) => (
+                                <FormItem className="min-w-[115px]">
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <FormControl>
+                                        <Button
+                                          type="button"
+                                          className="w-full text-left text-white bg-gradient-to-r from-slate-900 to-slate-950"
+                                        >
+                                          {field.value ? date_of_birth_years.find(date_of_birth_years => Number(date_of_birth_years.value) === field.value)?.label : "Select Year"}
+                                          <CaretSortIcon className="h-4 w-8 pl-2" />
+                                        </Button>
+                                      </FormControl>
+                                    </PopoverTrigger>
+                                      <PopoverContent className="w-44 p-0">
+                                        <Command>
+                                          <CommandInput placeholder="Search for program..." className="h-9" />
+                                          <CommandEmpty>No Years found.</CommandEmpty>
+                                          <CommandGroup>
+                                            {date_of_birth_years.map((item) => (
+                                              <CommandItem
+                                                value={item.label}
+                                                key={item.value}
+                                                className="h-6"
+                                                onSelect={() => {
+                                                  form.setValue("date_of_birth_year", Number(item.value))
+                                                }}
+                                              >
+                                                {item.label}
+                                                <CheckIcon
+                                                  className={cn(
+                                                    "ml-auto h-4 w-4",
+                                                    Number(item.value) === field.value
+                                                      ? "opacity-100"
+                                                      : "opacity-0"
+                                                  )}
+                                                />
+                                              </CommandItem>
+                                            ))}
+                                          </CommandGroup>
+                                        </Command>
+                                      </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                 </div>
               </div>
 
