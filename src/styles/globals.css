@@ -5,7 +5,6 @@
 @layer base {
   :root {
     --background: 224 71.4% 4.1%;
-    --gibbackground: 46, 47, 61;
     --foreground: 210 20% 98%;
 
     --card: 224 71.4% 4.1%;
@@ -54,11 +53,13 @@ html, body {
 
 body {
   background-color: rgb(20, 20, 32);
-  background-image: linear-gradient(0deg, rgb(3, 7, 18) 0%, rgb(10, 12, 20) 70%);
+  background-image: linear-gradient(180deg, rgb(6, 14, 28) 0%, rgb(10, 12, 20) 70%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
+
+
 
 @media (max-width: 1280px) {
   .title {
@@ -87,6 +88,9 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     width: 100%;
+  }
+  .admissions-form-container {
+    width: 95%;
   }
   .logo {
     width: 30px;
