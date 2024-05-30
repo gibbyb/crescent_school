@@ -18,3 +18,4 @@ This project was also built with Create T3 App.
     - [ ] Perhaps create your own.
 - [ ] Clean up & complete database schema
 - [ ] Create your first API that will interact with the database
+- [ ] Not Kill ourselfs
