@@ -1490,7 +1490,7 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center py-2 pb-4">
             <Button type="submit" className="mt-6 min-w-40 font-semibold text-lg">Enroll Student</Button>
           </div>
         </form>
