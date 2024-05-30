@@ -2,7 +2,9 @@
 
 import { db } from "~/server/db"
 import Link from "next/link";
-export const dynamic = "force-dynamic";
+//export const dynamic = "force-dynamic";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -36,7 +38,6 @@ import {
 } from "~/components/ui/popover"
 import { Calendar } from "~/components/ui/calendar"
 import { format } from "date-fns"
-import { useEffect } from "react";
 
 const FormSchema = z.object({
   first_name: z.string().min(2).max(255),
@@ -189,6 +190,7 @@ const prior_educations: ComboOption[] =
 }));
 
 export default function InputForm() {
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -206,7 +208,7 @@ export default function InputForm() {
       appointment_time_hour: 12,
       appointment_time_min: 0,
       appointment_time_am_pm: "PM",
-      classes: "Morning",
+      classes: "Not Assigned",
       interviewed_by: "Mark",
       enrolled_by: "Mark",
       additional_notes: "",
@@ -216,8 +218,16 @@ export default function InputForm() {
   })
 
   const selected_program_selected = form.watch("selected_program");
-  useEffect(() => {
+    const { data: session, status } = useSession();
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+      if (status !== "loading") {
+        setLoading(false);
+      }
+    }, [status]);
+
+  useEffect(() => {
     if (selected_program_selected === "Short Bar") {
       form.setValue("program_cost", 695);
       form.setValue("program_hours", 2700);
@@ -257,6 +267,15 @@ export default function InputForm() {
       ),
     })
   }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    return <div>Please sign in</div>;
+  }
+
   return (
     <div className="admissions-form-container w-2/3 mx-auto">
     <h1 className="text-3xl font-bold text-center mb-6">Admissions</h1>
