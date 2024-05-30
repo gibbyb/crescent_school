@@ -28,6 +28,7 @@ export const program_enum = pgEnum("program_enum", ['Not Assigned','All Game','T
 export const status_enum = pgEnum("status_enum", ['Not Assigned','Student','Graduate','Dropped','DC','CXL']);
 export const collection_status_enum = pgEnum("collection_status_enum", ['Not Assigned','Sent','Paid','Unpaid']);
 export const comment_type_enum = pgEnum("comment_type_enum", ['Not Assigned','Admission','Master','Placement']);
+export const class_enum = pgEnum("class_enum", ['Not Assigned', 'Day', 'Night']);
 
 export const Students = createTable(
   "students",
@@ -37,6 +38,7 @@ export const Students = createTable(
     first_name: varchar("first_name", {length: 256}).notNull(),
     last_name: varchar("last_name", {length: 256}).notNull(),
     program: program_enum("program").default('Not Assigned').notNull(),
+    class: class_enum("class").default('Not Assigned').notNull(),
     SSN: varchar("SSN", {length: 256}).notNull().unique(),
     phone_number: varchar("phone_number", {length: 256}),
     email: varchar("email", {length: 256}).notNull(),

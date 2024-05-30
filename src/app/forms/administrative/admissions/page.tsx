@@ -90,7 +90,7 @@ const FormSchema = z.object({
   appointment_time_hour: z.number().min(1).max(12).optional(),
   appointment_time_min: z.number().min(0).max(59).optional(),
   appointment_time_am_pm: z.enum(["AM", "PM"]).optional(),
-  classes: z.enum(["Morning", "Afternoon", "Evening", "Night"]).optional(),
+  classes: z.enum(["Not Assigned", "Day", "Night"]).optional(),
   interviewed_by: z.enum(["Mark", "Instructor", "Owner", "Other"]),
   interview_date: z.date(),
   start_date: z.date().optional(),
@@ -214,16 +214,38 @@ export default function InputForm() {
     },
 
   })
+
+  const selected_program_selected = form.watch("selected_program");
+  useEffect(() => {
+
+    if (selected_program_selected === "Short Bar") {
+      form.setValue("program_cost", 695);
+      form.setValue("program_hours", 2700);
+    } else if (selected_program_selected === "Bar Management") {
+      form.setValue("program_cost", 2550);
+      form.setValue("program_hours", 300);
+    } else if (selected_program_selected === "All Games") {
+      form.setValue("program_cost", 6895);
+      form.setValue("program_hours", 750);
+    } else if (selected_program_selected === "Two Games") {
+      form.setValue("program_cost", 3600);
+      form.setValue("program_hours", 350);
+    } else if (selected_program_selected === "One Game") {
+      form.setValue("program_cost", 2000);
+      form.setValue("program_hours", 175);
+    }
+  }, [selected_program_selected, form]);
+
   const day = form.watch("date_of_birth_day");
   const month = form.watch("date_of_birth_month");
   const year = form.watch("date_of_birth_year");
-useEffect(() => {
+  useEffect(() => {
 
-  if (day && month && year) {
-    const date = new Date(year, month - 1, day);
-    form.setValue("date_of_birth", date);
-  }
-}, [day, month, year, form]);
+    if (day && month && year) {
+      const date = new Date(year, month - 1, day);
+      form.setValue("date_of_birth", date);
+    }
+  }, [day, month, year, form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
@@ -1305,9 +1327,6 @@ useEffect(() => {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() || date < new Date("1900-01-01")
-                              }
                               initialFocus
                             />
                           </PopoverContent>
@@ -1316,7 +1335,6 @@ useEffect(() => {
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="mail_info"
@@ -1410,7 +1428,7 @@ useEffect(() => {
 
                 </div>
 
-                <div className="appointment-grid grid gap-6 grid-cols-3 pb-4">
+                <div className="appointment-grid grid gap-6 grid-cols-3">
 
                   <FormField
                     control={form.control}
@@ -1472,20 +1490,27 @@ useEffect(() => {
                     )}
                   />
                 </div>
-
-                <div className="appointment-grid grid gap-6 grid-cols-2 md:grid-cols-3 pb-4">
-
-                </div>
-
-                <div className="appointment-grid grid gap-6 grid-cols-2 pt-10">
-                  <div className="grid gap-4 grid-rows-2 grid-cols-1 border rounded-lg p-2">
-                    <FormLabel className="text-lg text-center font-semibold">Program Cost:</FormLabel>
-                    <FormLabel className="text-lg text-center">$10,00</FormLabel>
-                  </div>
-                  <div className="grid gap-4 grid-rows-2 grid-cols-1 border rounded-lg p-2">
-                    <FormLabel className="text-lg text-center font-semibold">Program Hours:</FormLabel>
-                    <FormLabel className="text-lg text-center">800</FormLabel>
-                  </div>
+                <div className="appointment-grid grid gap-4 grid-cols-2 pt-10">
+                    <FormField
+                      control={form.control}
+                      name="program_cost"
+                      render={({ field }) => (
+                        <FormItem className="grid gap-2 grid-rows-2 grid-cols-1 border rounded-lg p-2">
+                          <FormLabel className="text-lg text-center font-semibold">Program Cost:</FormLabel>
+                          <FormLabel className="text-lg text-center">{field.value}</FormLabel>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="program_hours"
+                      render={({ field }) => (
+                        <FormItem className="grid gap-2 grid-rows-2 grid-cols-1 border rounded-lg p-2">
+                          <FormLabel className="text-lg text-center font-semibold">Program Hours:</FormLabel>
+                          <FormLabel className="text-lg text-center">{field.value}</FormLabel>
+                        </FormItem>
+                      )}
+                    />
                 </div>
               </div>
             </div>

@@ -13,9 +13,10 @@ This project was also built with Create T3 App.
 - [x] Set up Auth.js with Microsoft Entra & GitHub
 - [x] Make a decent nav bar for mobile & desktop
 - [x] Set up shadcn/ui
-- [ ] Begin creating pages, frontends, etc.
-- [ ] Try to set up Auth.js Drizzle adapter if one exists
-    - [ ] Perhaps create your own.
+- [ ] Finish Admissions Form. Ensure that you can add a student to the database with form.
+- [ ] Add some kind of permissions based on Auth. Prevent users from accessing pages without being signed in.
+    - [ ] Try to set up Auth.js Drizzle adapter if one exists
+        - [ ] Perhaps create your own.
+- [ ] Create a search page where you can do Advanced searches on students.
 - [ ] Clean up & complete database schema
 - [ ] Create your first API that will interact with the database
-- [ ] Not Kill ourselfs
