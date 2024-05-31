@@ -10,6 +10,7 @@ specifiers:
   '@radix-ui/react-label': ^2.0.2
   '@radix-ui/react-navigation-menu': ^1.1.4
   '@radix-ui/react-popover': ^1.0.7
+  '@radix-ui/react-progress': ^1.0.3
   '@radix-ui/react-slot': ^1.0.2
   '@radix-ui/react-toast': ^1.1.5
   '@t3-oss/env-nextjs': ^0.10.1
@@ -57,6 +58,7 @@ dependencies:
   '@radix-ui/react-label': 2.0.2_a6822bb39f6af1c36c6042a3716b6784
   '@radix-ui/react-navigation-menu': 1.1.4_a6822bb39f6af1c36c6042a3716b6784
   '@radix-ui/react-popover': 1.0.7_a6822bb39f6af1c36c6042a3716b6784
+  '@radix-ui/react-progress': 1.0.3_a6822bb39f6af1c36c6042a3716b6784
   '@radix-ui/react-slot': 1.0.2_@types+react@18.3.3+react@18.2.0
   '@radix-ui/react-toast': 1.1.5_a6822bb39f6af1c36c6042a3716b6784
   '@t3-oss/env-nextjs': 0.10.1_typescript@5.4.5+zod@3.23.8
@@ -1439,6 +1441,28 @@ packages:
     dependencies:
       '@babel/runtime': 7.24.6
       '@radix-ui/react-slot': 1.0.2_@types+react@18.3.3+react@18.2.0
+      '@types/react': 18.3.3
+      '@types/react-dom': 18.3.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@radix-ui/react-progress/1.0.3_a6822bb39f6af1c36c6042a3716b6784:
+    resolution: {integrity: sha512-5G6Om/tYSxjSeEdrb1VfKkfZfn/1IlPWd731h2RfPuSbIfNUgfqAwbKfJCg/PP6nuUCTrYzalwHSpSinoWoCag==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.24.6
+      '@radix-ui/react-context': 1.0.1_@types+react@18.3.3+react@18.2.0
+      '@radix-ui/react-primitive': 1.0.3_a6822bb39f6af1c36c6042a3716b6784
       '@types/react': 18.3.3
       '@types/react-dom': 18.3.0
       react: 18.2.0
