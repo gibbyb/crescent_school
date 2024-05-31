@@ -218,14 +218,14 @@ export default function InputForm() {
   })
 
   const selected_program_selected = form.watch("selected_program");
-    const { data: session, status } = useSession();
-    const [loading, setLoading] = useState(true);
+  const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-      if (status !== "loading") {
-        setLoading(false);
-      }
-    }, [status]);
+  useEffect(() => {
+    if (status !== "loading") {
+      setLoading(false);
+    }
+  }, [status]);
 
   useEffect(() => {
     if (selected_program_selected === "Short Bar") {
