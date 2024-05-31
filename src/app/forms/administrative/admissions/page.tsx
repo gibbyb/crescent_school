@@ -1,29 +1,31 @@
 "use client"
 
-import { db } from "~/server/db"
-import Link from "next/link";
+//import { db } from "~/server/db"
+//import Link from "next/link";
 //export const dynamic = "force-dynamic";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import * as React from "react"
+import { CaretSortIcon, CheckIcon, CalendarIcon } from "@radix-ui/react-icons"
+import { cn } from "~/lib/utils"
 import { z } from "zod"
 import { Button } from "~/components/ui/button"
 import { Checkbox } from "~/components/ui/checkbox"
+import { Input } from "~/components/ui/input"
+import { toast } from "~/components/ui/use-toast"
+import { Calendar } from "~/components/ui/calendar"
+import { format } from "date-fns"
 import {
   Form,
   FormControl,
-  FormDescription,
+  //FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "~/components/ui/form"
-import { Input } from "~/components/ui/input"
-import { toast } from "~/components/ui/use-toast"
-import * as React from "react"
-import { CaretSortIcon, CheckIcon, CalendarIcon } from "@radix-ui/react-icons"
-import { cn } from "~/lib/utils"
 import {
   Command,
   CommandEmpty,
@@ -36,8 +38,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover"
-import { Calendar } from "~/components/ui/calendar"
-import { format } from "date-fns"
 
 const FormSchema = z.object({
   first_name: z.string().min(2).max(255),
@@ -403,8 +403,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-24 p-0">
                             <Command>
-                              <CommandInput placeholder="Search state..." className="h-9" />
-                              <CommandEmpty>No states found.</CommandEmpty>
                               <CommandGroup>
                                 {states.map((state) => (
                                   <CommandItem
@@ -427,6 +425,8 @@ export default function InputForm() {
                                   </CommandItem>
                                 ))}
                               </CommandGroup>
+                              <CommandInput placeholder="Search state..." className="h-9" />
+                              <CommandEmpty>No states found.</CommandEmpty>
                             </Command>
                           </PopoverContent>
                         </Popover>
@@ -661,8 +661,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-36 p-0">
                             <Command>
-                              <CommandInput placeholder="Student's sex" className="h-9" />
-                              <CommandEmpty>No sex found</CommandEmpty>
                               <CommandGroup>
                                 {sexes.map((item) => (
                                   <CommandItem
@@ -712,8 +710,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-36 p-0">
                             <Command>
-                              <CommandInput placeholder="Student's race" className="h-9" />
-                              <CommandEmpty>No race found</CommandEmpty>
                               <CommandGroup>
                                 {races.map((item) => (
                                   <CommandItem
@@ -763,8 +759,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-36 p-0">
                             <Command>
-                              <CommandInput placeholder="Student's ethniciy" className="h-9" />
-                              <CommandEmpty>No ethnicity found</CommandEmpty>
                               <CommandGroup>
                                 {ethnicities.map((item) => (
                                   <CommandItem
@@ -823,8 +817,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-44 p-0">
                             <Command>
-                              <CommandInput placeholder="Search for program..." className="h-9" />
-                              <CommandEmpty>No Programs found.</CommandEmpty>
                               <CommandGroup>
                                 {selected_programs.map((selected_program) => (
                                   <CommandItem
@@ -875,8 +867,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-44 p-0">
                             <Command>
-                              <CommandInput placeholder="Search for status" className="h-9" />
-                              <CommandEmpty>No caller found.</CommandEmpty>
                               <CommandGroup>
                                 {statuses.map((item) => (
                                   <CommandItem
@@ -927,8 +917,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-44 p-0">
                             <Command>
-                              <CommandInput placeholder="Search for program..." className="h-9" />
-                              <CommandEmpty>No references found.</CommandEmpty>
                               <CommandGroup>
                                 {references.map((reference) => (
                                   <CommandItem
@@ -979,8 +967,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-44 p-0">
                             <Command>
-                              <CommandInput placeholder="Search for Caller" className="h-9" />
-                              <CommandEmpty>No caller found.</CommandEmpty>
                               <CommandGroup>
                                 {call_taken_bys.map((call_taken_by) => (
                                   <CommandItem
@@ -1040,9 +1026,6 @@ export default function InputForm() {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() || date < new Date("1900-01-01")
-                              }
                               initialFocus
                             />
                           </PopoverContent>
@@ -1081,9 +1064,6 @@ export default function InputForm() {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() || date < new Date("1900-01-01")
-                              }
                               initialFocus
                             />
                           </PopoverContent>
@@ -1126,9 +1106,6 @@ export default function InputForm() {
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() || date < new Date("1900-01-01")
-                              }
                               initialFocus
                             />
                           </PopoverContent>
@@ -1394,8 +1371,6 @@ export default function InputForm() {
                           </PopoverTrigger>
                           <PopoverContent className="w-44 p-0">
                             <Command>
-                              <CommandInput placeholder="Search for prior educations" className="h-9" />
-                              <CommandEmpty>No prior eduction found</CommandEmpty>
                               <CommandGroup>
                                 {prior_educations.map((item) => (
                                   <CommandItem
@@ -1516,7 +1491,7 @@ export default function InputForm() {
                       render={({ field }) => (
                         <FormItem className="grid gap-2 grid-rows-2 grid-cols-1 border rounded-lg p-2">
                           <FormLabel className="text-lg text-center font-semibold">Program Cost:</FormLabel>
-                          <FormLabel className="text-lg text-center">{field.value}</FormLabel>
+                          <FormLabel className="text-lg text-center">${field.value}</FormLabel>
                         </FormItem>
                       )}
                     />

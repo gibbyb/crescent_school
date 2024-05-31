@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Nav_Items } from "./Navigation_Menu";
-import { User_Menu } from "./User_Menu";
+import { Nav_Items } from "~/app/_components/ui/Navigation_Menu";
+import { User_Menu } from "~/app/_components/ui/User_Menu";
 
 export async function Nav_Bar() {
   return (

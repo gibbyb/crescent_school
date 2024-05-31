@@ -1,8 +1,8 @@
+//import Image from 'next/image';
 import { auth } from "~/auth";
-import { SignInAZURE } from "../auth/sign_in_azure";
-import { SignInGH } from "../auth/sign_in_gh";
-import { SignOut } from "../auth/sign_out";
-import Image from 'next/image';
+import { SignInAZURE } from "~/app/_components/auth/sign_in_azure";
+import { SignInGH } from "~/app/_components/auth/sign_in_gh";
+import { SignOut } from "~/app/_components/auth/sign_out";
 import { Button } from "~/components/ui/button"
 import {
   DropdownMenu,
