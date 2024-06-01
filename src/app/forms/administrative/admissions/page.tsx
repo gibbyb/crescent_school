@@ -16,6 +16,7 @@ import { Checkbox } from "~/components/ui/checkbox"
 import { Input } from "~/components/ui/input"
 import { toast } from "~/components/ui/use-toast"
 import { Calendar } from "~/components/ui/calendar"
+import Loading from "~/app/_components/ui/Loading"
 import { format } from "date-fns"
 import {
   Form,
@@ -269,7 +270,7 @@ export default function InputForm() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!session) {
