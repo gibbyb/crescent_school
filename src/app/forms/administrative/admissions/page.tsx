@@ -249,6 +249,9 @@ const InputForm = () => {
         const data: StudentResponse = await response.json() as StudentResponse;
         if (data.length > 0 && data[0]?.email) {
           setEmail(data[0].email);
+        } else {
+          setEmail("");
+          console.log("No email found.");
         }
       } else {
         console.log("No email found.");

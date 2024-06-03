@@ -16,6 +16,7 @@ This project was also built with Create T3 App.
 - [x] Make a decent nav bar for mobile & desktop
 - [x] Set up shadcn/ui
 - [x] Set up first database function using Drizzle
+- [x] Add environment variables to the env.js file
 - [ ] Finish Admissions Form. Ensure that you can add a student to the database with form.
 - [X] Add some kind of permissions based on Auth. Prevent users from accessing pages without being signed in.
 - [ ] Create a search page where you can do Advanced searches on students.
