@@ -194,6 +194,14 @@ const prior_educations: ComboOption[] =
   value: item,
   label: item,
 }));
+interface Student {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email?: string;
+  // Add other fields as necessary
+}
+type StudentResponse = Student[];
 
 const InputForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -224,6 +232,32 @@ const InputForm = () => {
   const selected_program_selected = form.watch("selected_program");
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleBlur = async () => {
+    try {
+      const response = await fetch(`/api/db/students/search/by_name?firstName=${firstName}&lastName=${lastName}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.API_KEY ?? "",
+        },
+      });
+      if (response.ok) {
+        const data: StudentResponse = await response.json() as StudentResponse;
+        if (data.length > 0 && data[0]?.email) {
+          setEmail(data[0].email);
+        }
+      } else {
+        console.log("No email found.");
+      }
+      
+    } catch (error) {
+      console.error("No student found.");
+    }
+  }
 
   useEffect(() => {
     if (status !== "loading") {
@@ -293,7 +327,7 @@ const InputForm = () => {
                       <FormItem className="min-w-[170px]">
                         <FormLabel>First Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="First Name" {...field} />
+                          <Input placeholder="First Name" {...field} value={firstName} onChange={(e) => setFirstName(e.target.value)} onBlur={handleBlur}/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -306,7 +340,7 @@ const InputForm = () => {
                       <FormItem className="min-w-[170px]">
                         <FormLabel>Last Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Last Name" {...field} />
+                          <Input placeholder="Last Name" {...field} value={lastName} onChange={(e) => setLastName(e.target.value)} onBlur={handleBlur} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -322,7 +356,7 @@ const InputForm = () => {
                       <FormItem className="min-w-[170px]">
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="Email" {...field} />
+                          <Input placeholder="Email" {...field} value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
