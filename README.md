@@ -4,7 +4,9 @@ This is a rewrite of the Crescent School of Gaming's current "stack," which is j
 The rewrite will use Next.js, PostgreSQL, Drizzle, Auth.js, Typescript, & TailwindCSS.
 This project was also built with Create T3 App.
 
-### To Do:
+## To Do:
+
+### Big Picture
 
 - [x] Initialize project, install & configure dependencies
 - [x] Set up PostgreSQL database
@@ -13,10 +15,22 @@ This project was also built with Create T3 App.
 - [x] Set up Auth.js with Microsoft Entra & GitHub
 - [x] Make a decent nav bar for mobile & desktop
 - [x] Set up shadcn/ui
+- [x] Set up first database function using Drizzle
 - [ ] Finish Admissions Form. Ensure that you can add a student to the database with form.
-- [ ] Add some kind of permissions based on Auth. Prevent users from accessing pages without being signed in.
-    - [ ] Try to set up Auth.js Drizzle adapter if one exists
-        - [ ] Perhaps create your own.
+- [X] Add some kind of permissions based on Auth. Prevent users from accessing pages without being signed in.
 - [ ] Create a search page where you can do Advanced searches on students.
 - [ ] Clean up & complete database schema
 - [ ] Create your first API that will interact with the database
+
+### Small Picture
+
+#### Admissions Form
+
+- [ ] Add fields in the box below the form.
+- [ ] Add the ability to search for a student & select them. If selected, populate the form with their information.
+    - [ ] This search could come from a slidover/drawer thing, and be dynamic depending on what page the user is on. 
+- [ ] Let the user add comments to the student's profile
+    - [ ] Display all student comments in table.
+- [ ] Add the ability to add a student to the database
+- [ ] Look through form and consider reorganizing the form based on what fields are used the most.
+- [ ] How will a user add comments for a student that has not yet been admitted/added to the database?

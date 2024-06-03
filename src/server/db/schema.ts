@@ -93,6 +93,7 @@ export const Comments = createTable(
   {
     id: serial("id").primaryKey().notNull(),
     student_id: serial("student_id").notNull().references(() => Students.id),
+    instructor_id: serial("instructor_id").notNull().references(() => Instructors.id),
     comment: varchar("comment", {length: 256}).notNull(),
     date: timestamp("date", { withTimezone: true }).notNull(),
     comment_type: comment_type_enum("comment_type").default('Not Assigned').notNull(),
