@@ -1,17 +1,17 @@
 import { searchStudentsByName } from "~/server/db/functions/students";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { auth } from "~/auth";
 
 export async function GET(request: NextRequest) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+  };
   const { searchParams } = new URL(request.url);
   const firstName = searchParams.get('firstName');
   const lastName = searchParams.get('lastName');
 
-  const apiKey = request.headers.get('x-api-key');
-  const validApiKey = process.env.API_KEY;
-  if (apiKey !== validApiKey) {
-    //return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
-  }
   if (!firstName || !lastName) {
     return NextResponse.json({ message: 'First name and last name are required' }, { status: 400 });
   }

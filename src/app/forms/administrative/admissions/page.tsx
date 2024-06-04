@@ -244,14 +244,13 @@ const InputForm = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": process.env.API_KEY ?? "",
         },
       });
       if (response.ok) {
         const data: StudentResponse = await response.json() as StudentResponse;
-        if (data.length > 0 && data[0]?.email && data[0]?.phone_number) {
-          setEmail(data[0].email);
-          setPhoneNumber(data[0].phone_number);
+        if (data.length > 0) {
+          if (data[0]?.email) setEmail(data[0].email);
+          if (data[0]?.phone_number) setPhoneNumber(data[0].phone_number);
         } else {
           setEmail("");
           setPhoneNumber("");

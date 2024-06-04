@@ -29,9 +29,9 @@ export const Students = createTable(
   "students",
   {
     id: serial("id").primaryKey().notNull(),
-    school_id: integer("school_id").notNull().references(() => Schools.id),
-    class_id: integer("class_id").references(() => Classes.id),
-    address_id: integer("address_id").notNull().references(() => Addresses.id),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
+    address_id: serial("address_id").notNull().references(() => Addresses.id),
     first_name: varchar("first_name", {length: 256}).notNull(),
     last_name: varchar("last_name", {length: 256}).notNull(),
     program: program_enum("program").default('Not Assigned').notNull(),
@@ -62,12 +62,12 @@ export const Instructors = createTable(
   "instructors",
   {
     id: serial("id").primaryKey().notNull(),
-    school_id: integer("school_id").notNull().references(() => Schools.id),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
     first_name: varchar("first_name", {length: 256}).notNull(),
     last_name: varchar("last_name", {length: 256}).notNull(),
     phone_number: varchar("phone_number", {length: 256}),
     email: varchar("email", {length: 256}),
-    address_id: integer("address_id").references(() => Addresses.id),
+    address_id: serial("address_id").references(() => Addresses.id),
   },
 );
 
@@ -76,7 +76,7 @@ export const Schools = createTable(
   {
     id: serial("id").primaryKey().notNull(),
     name: varchar("name", {length: 256}).notNull(),
-    address_id: integer("address_id").notNull().references(() => Addresses.id),
+    address_id: serial("address_id").notNull().references(() => Addresses.id),
     phone_number: varchar("phone_number", {length: 256}),
     fax_number: varchar("fax_number", {length: 256}),
     email: varchar("email", {length: 256}),
@@ -87,7 +87,7 @@ export const Accounting = createTable(
   "accounting",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
     living_expenses: decimal("living_expenses").notNull(),
     next_payment_due: timestamp("next_payment_due", { withTimezone: true }).notNull(),
     date_billed: timestamp("date_billed", { withTimezone: true }).notNull(),
@@ -100,8 +100,8 @@ export const Comments = createTable(
   "comments",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
-    instructor_id: integer("instructor_id").notNull().references(() => Instructors.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    instructor_id: serial("instructor_id").notNull().references(() => Instructors.id),
     comment: varchar("comment", {length: 256}).notNull(),
     date: timestamp("date", { withTimezone: true }).notNull(),
     comment_type: comment_type_enum("comment_type").default('Not Assigned').notNull(),
@@ -112,7 +112,7 @@ export const Disbursements = createTable(
   "disbursements",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
     fund_type: varchar("fund_type", {length: 256}).notNull(),
     scheduled_disbursement_date: timestamp("scheduled_disbursement_date", { withTimezone: true }),
     actual_disbursement_date: timestamp("actual_disbursement_date", { withTimezone: true }),
@@ -126,13 +126,13 @@ export const Receipts = createTable(
   "receipts",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
     payment_number: integer("payment_number").notNull(),
     payment_date: timestamp("payment_date", { withTimezone: true }).notNull(),
     payment_amount: decimal("payment_amount").notNull(),
     payment_type: varchar("payment_type", {length: 256}).notNull(),
     check_number: varchar("check_number", {length: 256}),
-    receipt_taken_by: integer("receipt_taken_by").notNull().references(() => Instructors.id),
+    receipt_taken_by: serial("receipt_taken_by").notNull().references(() => Instructors.id),
     deposit_date: timestamp("deposit_date", { withTimezone: true }),
   },
 );
@@ -142,7 +142,7 @@ export const Holidays = createTable(
   {
     id: serial("id").primaryKey().notNull(),
     name: varchar("name", {length: 256}).notNull(),
-    school_id: integer("school_id").notNull().references(() => Schools.id),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
     date: timestamp("date", { withTimezone: true }).notNull(),
   },
 );
@@ -151,8 +151,8 @@ export const Classes = createTable(
   "classes",
   {
     id: serial("id").primaryKey().notNull(),
-    course_id: integer("course_id").notNull().references(() => Courses.id),
-    school_id: integer("school_id").notNull().references(() => Schools.id),
+    course_id: serial("course_id").notNull().references(() => Courses.id),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
     class: class_enum("class").notNull(),
     class_time: timestamp("class_time", { withTimezone: true }).notNull(),
     credits: integer("credits").notNull(),
@@ -163,8 +163,8 @@ export const Tests = createTable(
   "tests",
   {
     id: serial("id").primaryKey().notNull(),
-    class_id: integer("class_id").notNull().references(() => Classes.id),
-    student_id: integer("student_id").notNull().references(() => Students.id),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
     score: decimal("score").notNull(),
   },
 );
@@ -173,8 +173,8 @@ export const Attendance = createTable(
   "attendance",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
-    class_id: integer("class_id").notNull().references(() => Classes.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
     date: timestamp("date", { withTimezone: true }).notNull(),
     hours: decimal("hours"),
     mod: integer("mod"),
@@ -186,8 +186,8 @@ export const Participation = createTable(
   "participation",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
-    class_id: integer("class_id").notNull().references(() => Classes.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
     date: timestamp("date", { withTimezone: true }).notNull(),
     participation: decimal("participation").notNull(),
   },
@@ -209,8 +209,8 @@ export const Admissions = createTable(
   "admissions",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
-    school_id: integer("school_id").notNull().references(() => Schools.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    school_id: serial("school_id").notNull().references(() => Schools.id),
     first_contact_date: timestamp("first_contact_date", { withTimezone: true }),
     last_contact_date: timestamp("last_contact_date", { withTimezone: true }),
     interview_date: timestamp("interview_date", { withTimezone: true }),
@@ -218,9 +218,9 @@ export const Admissions = createTable(
     scheduled_appointment_date: timestamp("scheduled_appointment_date", { withTimezone: true }),
     enroll_date: timestamp("enroll_date", { withTimezone: true }),
     reference: varchar("reference", {length: 256}),
-    interviewed_by: integer("interviewed_by").notNull().references(() => Instructors.id),
-    call_taken_by: integer("call_taken_by").notNull().references(() => Instructors.id),
-    enrolled_by: integer("enrolled_by").notNull().references(() => Instructors.id),
+    interviewed_by: serial("interviewed_by").notNull().references(() => Instructors.id),
+    call_taken_by: serial("call_taken_by").notNull().references(() => Instructors.id),
+    enrolled_by: serial("enrolled_by").notNull().references(() => Instructors.id),
   },
 );
 
@@ -228,8 +228,8 @@ export const Completed_Sections = createTable(
   "completed_sections",
   {
     id: serial("id").primaryKey().notNull(),
-    student_id: integer("student_id").notNull().references(() => Students.id),
-    class_id: integer("class_id").notNull().references(() => Classes.id),
+    student_id: serial("student_id").notNull().references(() => Students.id),
+    class_id: serial("class_id").notNull().references(() => Classes.id),
   },
 );
 
@@ -248,7 +248,7 @@ export const Courses = createTable(
   //{
     //id: serial("id").primaryKey().notNull(),
     //name: varchar("name", {length: 256}).notNull(),
-    //student_id: integer("student_id").notNull().references(() => Students.id),
+    //student_id: serial("student_id").notNull().references(() => Students.id),
     //casino_attitude: decimal("casino_attitude").notNull(),
     //audition: decimal("audition").notNull(),
   //},
