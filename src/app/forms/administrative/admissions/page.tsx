@@ -199,6 +199,7 @@ interface Student {
   first_name: string;
   last_name: string;
   email?: string;
+  phone_number?: string;
   // Add other fields as necessary
 }
 type StudentResponse = Student[];
@@ -235,6 +236,7 @@ const InputForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const handleBlur = async () => {
     try {
@@ -247,14 +249,16 @@ const InputForm = () => {
       });
       if (response.ok) {
         const data: StudentResponse = await response.json() as StudentResponse;
-        if (data.length > 0 && data[0]?.email) {
+        if (data.length > 0 && data[0]?.email && data[0]?.phone_number) {
           setEmail(data[0].email);
+          setPhoneNumber(data[0].phone_number);
         } else {
           setEmail("");
-          console.log("No email found.");
+          setPhoneNumber("");
+          console.log("No data found.");
         }
       } else {
-        console.log("No email found.");
+        console.log("No data found.");
       }
       
     } catch (error) {
@@ -372,7 +376,7 @@ const InputForm = () => {
                       <FormItem className="min-w-[170px]">
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
-                          <Input placeholder="Phone Number" {...field} />
+                          <Input placeholder="Phone Number" {...field} value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
