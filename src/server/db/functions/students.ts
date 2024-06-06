@@ -27,3 +27,20 @@ export const searchStudents = async (query: string) => {
     )
   );
 }
+
+export const getStudentByID = async (id: number) => {
+  return await db.query.Students.findFirst({
+    where: (students, { eq }) => eq(students.id, id),
+  });
+};
+
+export const getStudentAddressByID = async (id: number) => {
+  const student = await getStudentByID(id);
+  if (!student) {
+    return null;
+  }
+  const address = await db.query.Addresses.findFirst({
+    where: (addresses, { eq }) => eq(addresses.id, student.address_id),
+  });
+  return address;
+};

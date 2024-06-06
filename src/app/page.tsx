@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "~/auth";
 import { db } from "~/server/db"
+import No_Session from "~/app/_components/ui/No_Session";
 
 //export const dynamic = "force-dynamic";
 
@@ -11,10 +12,7 @@ export default async function HomePage() {
   });
   if (!user) {
     return (
-      <main>
-        <div className="w-full text-2xl text-center">Welcome to the New Dashboard for Crescent Staff</div>
-        <div className="w-full text-xl text-center">Please Sign In</div>
-      </main>
+      <No_Session />
     );
   } else {
     return (
