@@ -19,9 +19,9 @@ This project was also built with Create T3 App.
 - [x] Add environment variables to the env.js file
 - [ ] Finish Admissions Form. Ensure that you can add a student to the database with form.
 - [X] Add some kind of permissions based on Auth. Prevent users from accessing pages without being signed in.
-- [ ] Create a search page where you can do Advanced searches on students.
+- [X] Create a search page where you can do Advanced searches on students.
 - [ ] Clean up & complete database schema
-- [ ] Create your first API that will interact with the database
+- [X] Create your first API that will interact with the database
 
 ### Small Picture
 
@@ -29,7 +29,7 @@ This project was also built with Create T3 App.
 
 - [ ] Add fields in the box below the form.
 - [ ] Add the ability to search for a student & select them. If selected, populate the form with their information.
-    - [ ] This search could come from a slidover/drawer thing, and be dynamic depending on what page the user is on. 
+    - [x] This search could come from a slidover/drawer thing, and be dynamic depending on what page the user is on. 
 - [ ] Let the user add comments to the student's profile
     - [ ] Display all student comments in table.
 - [ ] Add the ability to add a student to the database

@@ -2,6 +2,7 @@
 import * as React from "react"
 import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
+import { useRouter } from "next/navigation"
 import {
   Drawer,
   DrawerClose,
@@ -38,6 +39,7 @@ type StudentResponse = Student[];
 export const Search_Students_Drawer: React.FC = () => {
   const [students, setStudents] = React.useState<StudentResponse>([]);
   const [student_query, setStudentQuery] = React.useState<string>("");
+  const router = useRouter();
 
   const searchStudents = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -94,8 +96,12 @@ export const Search_Students_Drawer: React.FC = () => {
               <TableBody>
                 {students.length > 0 ? (
                   students.map((student) => (
-                    <TableRow key={student.id}>
-                      <TableCell className="font-medium">{student.first_name} {student.last_name}</TableCell>
+                    <TableRow key={student.id} >
+                        <TableCell className="font-medium">
+                          <button onClick={() => router.push(`/students/${student.id}`)}>
+                            {student.first_name} {student.last_name}
+                          </button>
+                        </TableCell>
                       <TableCell>{student.school}</TableCell>
                       <TableCell>{student.status}</TableCell>
                     </TableRow>
