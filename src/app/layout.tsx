@@ -7,7 +7,7 @@ import { SessionProvider } from "next-auth/react";
 export const metadata: Metadata = {
   title: "Crescent School",
   description: "Crescent School of Gaming & Bartending Stack Rewrite",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
 export default function RootLayout({
