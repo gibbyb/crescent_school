@@ -39,6 +39,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.5",
+    "react-icons": "^5.2.1",
     "server-only": "^0.0.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
@@ -66,5 +67,5 @@
   "ct3aMetadata": {
     "initVersion": "7.33.1"
   },
-  "packageManager": "pnpm@9.2.0"
+  "packageManager": "pnpm@9.3.0"
 }

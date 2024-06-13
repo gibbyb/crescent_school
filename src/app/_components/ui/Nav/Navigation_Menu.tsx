@@ -23,7 +23,7 @@ const navItems = [
       },
       {
         title: "Student Information",
-        href: "/",
+        href: "/students",
         description: "Search for students & access relevant information about them.",
       },
       {

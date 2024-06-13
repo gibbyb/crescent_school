@@ -1,4 +1,5 @@
 //import Image from 'next/image';
+import Image from "next/image";
 import { auth } from "~/auth";
 import { SignInAZURE } from "~/app/_components/auth/sign_in_azure";
 import { SignInGH } from "~/app/_components/auth/sign_in_gh";

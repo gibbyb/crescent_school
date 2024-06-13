@@ -1,13 +1,14 @@
 "use client"
 import * as React from "react"
 import { Button } from "~/components/ui/button"
+import { FaSearch } from "react-icons/fa"
 import { Input } from "~/components/ui/input"
 import { useRouter } from "next/navigation"
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
+  //DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -29,8 +30,8 @@ interface Student {
   last_name: string;
   email?: string;
   phone_number?: string;
-  school: string;
-  status: string;
+  school?: string;
+  status?: string;
   // Add other fields as necessary
 }
 
@@ -64,25 +65,28 @@ export const Search_Students_Drawer: React.FC = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline">Search</Button>
+        <Button className="bg-gradient-to-br from-slate-900 to-slate-900 text-white">
+          <FaSearch />
+        </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm py-10">
           <DrawerHeader>
-            <DrawerTitle>Search for Student</DrawerTitle>
+            <DrawerTitle className="mx-auto">Search for Student</DrawerTitle>
+              <div className="p-2" />
               <form onSubmit={searchStudents}>
                 <Input
                   type="text"
                   value={student_query}
                   onChange={(e) => setStudentQuery(e.target.value)}
                 />
-                <Button type="submit">Submit</Button>
+                <div className="p-4" />
+                <Button className="w-full" type="submit">Submit</Button>
               </form>
-            <DrawerDescription>Blah Blah</DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>
             <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button>Cancel</Button>
             </DrawerClose>
             <Table>
               <TableCaption>Students</TableCaption>
@@ -119,5 +123,3 @@ export const Search_Students_Drawer: React.FC = () => {
     </Drawer>
   )
 }
-
-export default Search_Students_Drawer;

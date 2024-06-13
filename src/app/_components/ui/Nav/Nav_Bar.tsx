@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Nav_Items } from "~/app/_components/ui/Navigation_Menu";
-import { User_Menu } from "~/app/_components/ui/User_Menu";
-import { Search_Students_Drawer } from "~/app/_components/ui/Search_Students_Drawer";
+import { Nav_Items } from "~/app/_components/ui/Nav/Navigation_Menu";
+import { User_Menu } from "~/app/_components/ui/Nav/User_Menu";
+import { Search_Students_Drawer } from "~/app/_components/ui/Nav/Search_Students_Drawer";
 
 export async function Nav_Bar() {
   return (
@@ -20,8 +20,10 @@ export async function Nav_Bar() {
           </div>
         </Link>
         <Nav_Items />
-        <Search_Students_Drawer />
-        <User_Menu />
+        <div className="flex flex-row">
+          <Search_Students_Drawer />
+          <User_Menu />
+        </div>
       </nav>
     </div>
   );

@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { Nav_Bar } from "~/app/_components/ui/Nav_Bar";
+import { Nav_Bar } from "~/app/_components/ui/Nav/Nav_Bar";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
